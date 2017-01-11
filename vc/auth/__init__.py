@@ -25,9 +25,9 @@ def signup():
     payload = request.get_json()
     email = payload['email']
     password = payload['password']
-    db.session.add(User(email, password))
+    user = User(email, password)
+    db.session.add(user)
     db.session.commit()
-    user = User.query.filter_by(email=email).first()
     s = URLSafeTimedSerializer(current_app.config['SECRET_KEY'])  #TODO: salt?
     token = s.dumps({"id": user.id, "email": user.email})
     send_confirmation_email(
