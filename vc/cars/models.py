@@ -16,5 +16,5 @@ class Car(db.Model):
             "brand": self.brand
         }
 
-    def __repr__(self):
+    def __repr__(self):  # pragma: no cover
         return '<Car %r>' % self.identifier

@@ -12,5 +12,5 @@ class User(db.Model):
         self.email = email
         self.password = pbkdf2_sha256.hash(password)
 
-    def __repr__(self):
+    def __repr__(self):  # pragma: no cover
         return '<User %r>' % self.email

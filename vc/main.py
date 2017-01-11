@@ -8,15 +8,15 @@ from vc.cars.models import Car
 app = create_app()
 
 @app.cli.command()
-def initdb():
+def initdb():  # pragma: no cover
     db.create_all()
 
 @app.cli.command()
-def dropdb():
+def dropdb():  # pragma: no cover
     db.drop_all()
 
 @app.cli.command()
-def populatedb():
+def populatedb():  # pragma: no cover
     u1 = User("max", "foo")
     u1.confirmed = True
     db.session.add(u1)
