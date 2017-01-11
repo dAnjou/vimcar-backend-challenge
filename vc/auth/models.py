@@ -1,3 +1,5 @@
+from passlib.hash import pbkdf2_sha256
+
 from vc.database import db
 
 class User(db.Model):
@@ -8,7 +10,7 @@ class User(db.Model):
 
     def __init__(self, email, password):
         self.email = email
-        self.password = password  #TODO: hash it!
+        self.password = pbkdf2_sha256.hash(password)
 
     def __repr__(self):
         return '<User %r>' % self.email

@@ -1,6 +1,6 @@
 from flask import Blueprint, jsonify, request, current_app, url_for
-from werkzeug.security import safe_str_cmp
 from itsdangerous import URLSafeTimedSerializer
+from passlib.hash import pbkdf2_sha256
 
 from vc.database import db
 from vc.auth.models import User
@@ -9,7 +9,7 @@ auth = Blueprint('auth', __name__)
 
 def authenticate(email, password):
     user = User.query.filter_by(email=email, confirmed=True).first()
-    if user and safe_str_cmp(user.password.encode('utf-8'), password.encode('utf-8')):
+    if user and pbkdf2_sha256.verify(password.encode('utf-8'), user.password):
         return user
 
 def identity(payload):
@@ -18,7 +18,6 @@ def identity(payload):
 
 @auth.route('/signup', methods=['POST'])
 def signup():
-    #TODO: validation!
     payload = request.get_json()
     email = payload['email']
     password = payload['password']
