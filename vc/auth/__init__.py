@@ -16,6 +16,10 @@ def jwt_identity(payload):
     user = User.query.get(payload['identity'])
     return user
 
+def send_confirmation_email(user, link):
+    #TODO: actually send email!
+    print("Link for {user}: {link}".format(user=user, link=link))
+
 @auth.route('/signup', methods=['POST'])
 def signup():
     payload = request.get_json()
@@ -25,8 +29,11 @@ def signup():
     db.session.commit()
     user = User.query.filter_by(email=email).first()
     s = URLSafeTimedSerializer(current_app.config['SECRET_KEY'])  #TODO: salt?
-    confirm_token = s.dumps({"id": user.id, "email": user.email})
-    print(url_for('auth.confirm', token=confirm_token, _external=True))
+    token = s.dumps({"id": user.id, "email": user.email})
+    send_confirmation_email(
+        user,
+        url_for('auth.confirm', token=token, _external=True)
+    )
     return jsonify(result='success')
 
 @auth.route('/confirm')
