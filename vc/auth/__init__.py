@@ -13,6 +13,10 @@ def jwt_authenticate(email, password):
         return user
 
 def jwt_identity(payload):
+    #XXX: By default Flask-JWT uses the `id` attribute of whatever object is
+    # used to represent the identity when generating the token, in our case this
+    # object is a `User` instance. So here, `payload` is the decoded content of
+    # the token and `payload['identity']` is a `User.id`.
     user = User.query.get(payload['identity'])
     return user
 
