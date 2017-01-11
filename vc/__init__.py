@@ -8,6 +8,7 @@ def create_app():
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     app.config['JWT_AUTH_URL_RULE'] = '/auth/login'
     app.config['JWT_AUTH_USERNAME_KEY'] = 'email'
+    app.config.from_envvar('VC_SETTINGS')
 
     from vc.database import db
     db.init_app(app)
