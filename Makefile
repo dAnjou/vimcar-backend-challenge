@@ -9,6 +9,7 @@ VC_FLASK ?= FLASK_APP=$(VC_APP) $(VC_ENV)/bin/flask
 dev_init:
 	python3 -m venv $(VC_ENV)
 	$(VC_ENV)/bin/pip install -r requirements.txt
+	$(VC_ENV)/bin/pip install -r test_requirements.txt
 
 dev_initdb:
 	$(VC_FLASK) initdb
@@ -23,6 +24,9 @@ dev_recreatedb: dev_dropdb dev_initdb dev_populatedb
 
 dev_server:
 	$(VC_FLASK) run --host $(VC_HOST) --port $(VC_PORT)
+
+dev_test:
+	VC_SETTINGS=../tests/settings.py $(VC_ENV)/bin/pytest --cov=vc --cov-config coverage.ini
 
 docker_image:
 	docker build --tag $(VC_IMAGE) .

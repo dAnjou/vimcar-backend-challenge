@@ -1,0 +1,6 @@
+-r requirements.txt
+pytest==3.0.5
+pytest-cov==2.4.0
+pytest-pythonpath==0.7.1
+pytest-flask==0.10.0
+freezegun==0.3.8
