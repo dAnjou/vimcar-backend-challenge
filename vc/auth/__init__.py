@@ -7,12 +7,12 @@ from vc.auth.models import User
 
 auth = Blueprint('auth', __name__)
 
-def authenticate(email, password):
+def jwt_authenticate(email, password):
     user = User.query.filter_by(email=email, confirmed=True).first()
     if user and pbkdf2_sha256.verify(password.encode('utf-8'), user.password):
         return user
 
-def identity(payload):
+def jwt_identity(payload):
     user = User.query.get(payload['identity'])
     return user
 

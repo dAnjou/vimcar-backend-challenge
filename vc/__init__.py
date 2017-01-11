@@ -12,12 +12,11 @@ def create_app():
     from vc.database import db
     db.init_app(app)
 
-    from vc.auth import authenticate, identity
-    jwt = JWT(app, authenticate, identity)
+    from vc.auth import auth, jwt_authenticate, jwt_identity
+    jwt = JWT(app, jwt_authenticate, jwt_identity)
+    app.register_blueprint(auth, url_prefix='/auth')
 
     from vc.cars import cars
-    from vc.auth import auth
     app.register_blueprint(cars, url_prefix='/cars')
-    app.register_blueprint(auth, url_prefix='/auth')
 
     return app
