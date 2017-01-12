@@ -33,3 +33,14 @@ or
 ```
 make docker_run
 ```
+
+## Notes
+
+### State of the project
+
+So far the project is still in a very rough state. There pretty much only *happy
+path* code which means no error handling is done at all. There are tests missing
+as well. The project is also not quite ready for production deployment yet. For
+persistence SQLite is used which is not the best choice in the long run. The
+Docker setup can be improved to make it run the tests as well (especially useful
+in a CI system)
